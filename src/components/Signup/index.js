@@ -5,17 +5,18 @@ const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 import bcrypt from 'react-native-bcrypt'
 import uuid from 'uuid'
 import RSAKey from 'react-native-rsa'
-import {RSA_SECRET} from 'react-native-dotenv'
+import {RSA_SECRET,RSA_BITS} from 'react-native-dotenv'
 
 const rsa = new RSAKey()
-const bits = 1024;
-const exponent = '10001'; // must be a string
-var r = rsa.generate(bits, RSA_SECRET);
+
+const r = rsa.generate(RSA_BITS, RSA_SECRET);
+
+
 export default class Signup extends Component {
   submitButton () {
-    
     const salt = bcrypt.genSaltSync(10)
-    if (!this.state || !this.state.fullname || !this.state.password || !this.state.cpassword) {
+
+        if (!this.state || !this.state.fullname || !this.state.password || !this.state.cpassword) {
       Alert.alert('Please Fill all the Details')
     }else if (!emailRegex.test(this.state.email)) {
       Alert.alert('Please Enter Valid Email')
@@ -52,7 +53,7 @@ export default class Signup extends Component {
 
   render () {
     return (
-      <Container>
+      <Container style={style.container}>
         <Header>
           <Title>
             Signup
@@ -100,5 +101,8 @@ const style = StyleSheet.create({
   },
   icons: {
     color: '#384850'
+  },
+  container:{
+    backgroundColor: 'white'
   }
 })
